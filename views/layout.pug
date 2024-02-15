@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    nav
+      a(href='/') 
+        h1 Blog
+      ul.nav-right
+        if !user
+          li
+            a(href='/user/signup') Sign Up
+          li
+            a(href='/login') Sign In
+        else
+          li
+            a(href='/logout') Log Out
+    main
+      block content
+    
+    footer
+      div.link
+        a(href='https://github.com/davidsan13')
+          img(src='/images/github.png')
+        a(href='https://www.linkedin.com/in/davidsan13/') 
+          img(src='/images/linkedin.png')
+      h1 Copyright

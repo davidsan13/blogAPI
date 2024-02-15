@@ -1,0 +1,33 @@
+extends layout
+
+block content
+  div.content
+    h1 Create An Account
+    form(method='Post' action='')
+      div.form-group
+        label(for='firstName')  First Name: 
+        input#firstName.form-control(
+          type='text',
+          name='firstName',
+          value='',
+        )
+        label(for='lastName')  Last Name: 
+        input#lastName.form-control(
+          type='text',
+          name='lastName',
+          value=''
+        )
+        label(for='email')  Email: 
+        input#email.form-control(
+          type='email',
+          name='email',
+          value='',
+          required
+        )
+        label(for='password')  Password: 
+        input#password.form-control(
+          type='password',
+          name='password',
+          value=''
+        )
+        button.btn.btn-primary(type='submit') Submit
