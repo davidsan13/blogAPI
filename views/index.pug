@@ -2,6 +2,7 @@ extends layout
 
 block content
   div.content
-    div.blog-card
-    div.blog-card
+    each item in blog
+      li
+        a(href=item.url) #{item.title}
  

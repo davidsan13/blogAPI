@@ -6,7 +6,8 @@ const BlogSchema = new Schema({
   title : {type: String, required: true},
   content : {type: String, required: true},
   published: {type: Boolean, required: true},
-  publishedAt: {type: Date, required: true},
+  publishedAt: {type: Date},
+  comments:[{type: Schema.Types.ObjectId, ref: "Comment" }]
 })
 
 // Virtual for user's URL

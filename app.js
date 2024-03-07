@@ -15,6 +15,7 @@ var indexRouter = require('./routes/index');
 var userRouter = require('./routes/users');
 var blogRouter = require('./routes/blogs');
 
+
 require('dotenv').config()
 // Import the mongoose module
 
@@ -45,7 +46,7 @@ app.use(cors())
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
-app.use('/blogs', blogRouter);
+app.use('/blog', blogRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -64,7 +65,7 @@ app.use(function(err, req, res, next) {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Server is running on port ${port}`);
 });
 

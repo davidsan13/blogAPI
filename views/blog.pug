@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  div.content
+    h1 #{blog.title}
+    a(href=blog.url+'/delete') Delete
+    form(method='POST' action= blog.url+'/delete')
+      div.form-group
+        input#blogid.form-control(type='hidden',name='blogid', required='true', value=blog._id )
+
+      button.btn.btn-primary(type='submit') Delete
