@@ -6,18 +6,12 @@ const { body, validationResult } = require("express-validator");
 exports.comment_get = asyncHandler(async (req, res, next) => {
   const filter = {blog_id: req.params['id']}
   try {
-    const comments = await Comment.find(blog)
+    const comments = await Comment.find(filter)
     res.status(200).json(comments)
   } catch(error) {
     console.log(error)
   }
 })
-
-// create
-// exports.comment_create_post = asyncHandler(async (req, res, next) => {
-//   console.log(req.body.blogId)
-//   res.send("get create")
-// })
 
 exports.comment_create_post = [
   body("user", "Message must container at least 2 characters")
@@ -29,16 +23,6 @@ exports.comment_create_post = [
     .trim()
     .isLength({min: 2})
     .escape(),
-  
-  // body("published", "Message must container at least 2 characters")
-  //   .trim()
-  //   .isLength({min: 2})
-  //   .escape(),
-
-  // body("publishedAt", "Message must container at least 2 characters")
-  //   .trim()
-  //   .isLength({min: 2})
-  //   .escape(),
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
@@ -58,16 +42,6 @@ exports.comment_create_post = [
     } catch (errors) {
       console.log(errors)
     }
-  //   if(!errors.isEmpty()) {
-  //     res.render('index', {
-  //       errors: errors.array(),
-  //     });
-  //     return;
-  //   } else {
-  //     const response = await comment.save()
-  //     res.status(201).json(response)
-  //   }
-  // res.render('POST create')
   })
 ]
 
@@ -77,7 +51,18 @@ exports.comment_detail_get = asyncHandler(async(req, res, next) => {
 })
 
 exports.comment_delete = asyncHandler(async(req, res, next) => {
-  res.send('delete comment')
+  try {
+    const comment = await Comment.findById(req.params['commentId'])
+    if(!comment) res.status(202).send("comment does not exist")
+    
+    await Blog.findByIdAndUpdate({_id: comment.blog_id}, {$pull: {comments: comment._id}})
+    await Comment.findByIdAndDelete(req.params['commentId'])
+    console.log("Comment Delete")
+    res.status(200).send("Comment Delete")
+  } catch(error) {
+    console.log(error)
+  }
+  
 })
 
 exports.comment_update_post = asyncHandler(async(req,res,next) => {

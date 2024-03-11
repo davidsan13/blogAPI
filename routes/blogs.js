@@ -27,21 +27,15 @@ router.post('/:id/update', blog_controller.blog_update_post)
 router.get('/', comment_controller.comment_get);
 
 //create
-// router.get('/createcomment', comment_controller.comment_create_get)
-
 router.post('/:blogId/comment', comment_controller.comment_create_post)
 
 //read
 router.get('/:commentId', comment_controller.comment_detail_get)
 
 //delete
-router.delete('/:commentId/delete', comment_controller.comment_delete)
+router.delete('/comment/:commentId/delete', comment_controller.comment_delete)
 
-// router.post('/:id/delete', comment_controller.comment_delete_post)
-
-//update 
-// router.get('/:id/update', comment_controller.comment_update_get)
-
+//update
 router.post('/:commentId/update', comment_controller.comment_update_post)
 
 module.exports = router;

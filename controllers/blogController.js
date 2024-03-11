@@ -1,4 +1,6 @@
 const Blog = require("../models/blog")
+const Comment = require("../models/comment")
+
 const asyncHandler = require("express-async-handler")
 const { body, validationResult } = require("express-validator");
 
@@ -6,6 +8,7 @@ const { body, validationResult } = require("express-validator");
 exports.blog_get = asyncHandler(async (req, res, next) => {
   try {
     const Blogs = await Blog.find()
+    
     if(Blogs.length == 0) {
       console.log("Not Data")
       res.status(204).send("No Data")
@@ -73,8 +76,9 @@ exports.blog_create_post = [
 //read
 exports.blog_detail_get = asyncHandler(async (req, res, next) => {
   try{
+    const comments = await Comment.find({blog_id: req.params['blogId']})
     const blog = await Blog.findById(req.params['blogId']).exec()
-    res.status(200).json(blog)
+    res.status(200).json({blog, comments})
     // res.render('blog', {blog: blog})
   } catch (error) {
     console.log(error)
@@ -117,3 +121,6 @@ exports.blog_update_post = asyncHandler(async (req, res, next) => {
 //   res.send("blog: blog update post")
 // })
 
+
+
+// Blog.findByIdAndUpdate({_id: req.params['blogId await']}, {$pop: {comments: -1}})
