@@ -5,8 +5,12 @@ const blog_controller = require('../controllers/blogController')
 const comment_controller = require('../controllers/commentController')
 
 
-/* GET all published blog listing. */
-router.get('/', blog_controller.blog_get);
+/* GET latest 4 blogs. */
+router.get('/', blog_controller.blog_get_four);
+
+// Get all blogs
+
+router.get('/allBlogs', blog_controller.blog_get_all)
 
 //create
 router.get('/createblog', blog_controller.blog_create_get)
