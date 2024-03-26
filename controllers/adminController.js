@@ -1,16 +1,10 @@
-
 const User = require("../models/user")
-const asyncHandler = require("express-async-handler")
 const { body, validationResult } = require("express-validator");
-// const passport = require("passport");
-const jwt = require('jsonwebtoken')
-const bcrypt = require("bcryptjs");
+const asyncHandler = require("express-async-handler")
+const jwt = require("jsonwebtoken")
+const bcrypt = require("bcryptjs")
 
-// index 
-
-// user controller
-
-exports.user_create_post = [
+exports.admin_signup_post = [
   // Validate and Sanitize the field.
   body("firstName", "First name must contain at least 2 characters")
     .trim()
@@ -65,47 +59,50 @@ exports.user_create_post = [
   })
 ]
 
-exports.user_login_get = asyncHandler(async (req, res, next) => {
-  res.render('signin')
-})
-
-exports.user_login_post = asyncHandler(async (req, res, next) => {
+exports.admin_login_post = asyncHandler(async (req, res, next) => {
   const email = req.body.email
   // const user = {name: email}
   const password = req.body.password
 
   try {
     const user = await User.findOne({email: email});
-    // if(!user) {
-      // res.json({message: "Incorrect username"})
-    // }
-    // const match = await bcrypt.compare(password, user.password)
-    // if(!match) {
-      // res.json({message: "Incorrect password"})
-    // }
-    const accessToken = jwt.sign({user}, 'secretKey', (err, token) => {
-      res.json({token})
+    if(!user) {
+      res.json({message: "Incorrect username"})
+    }
+    const match = await bcrypt.compare(password, user.password)
+    if(!match) {
+      res.json({message: "Incorrect password"})
+    }
+    const accessToken = jwt.sign({user}, process.env.secretKey, (err, token) => {
+      res
+        .cookie("access_token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+        })
+        .status(200)
+        .json({message: "Logged in successfully"})
     })
   } catch(err) {
     return (err)
   }
 
 })
+exports.admin_blog_get = asyncHandler( async(req, res, next) => {
+  res.json("Retrieve All Blog")
+})
 
-const post = [
-  {
-    username: 'sandavid08@yahoo.com',
-    title: 'Post 1'
-  },
-  {
-    username: 'richard',
-    title: 'Post 2'
-  }
-]
-exports.user_post_get = asyncHandler(async (req, res,) => {
-  res.json({
-    message: 'Post created ...',
-    user: req.user
-  })
+exports.admin_blog_create_post = asyncHandler( async(req, res, next) => {
+  res.json("create blog")
+})
 
+exports.admin_update_post = asyncHandler( async(req, res, next) => {
+  res.json({message: `blog post ${req.params['blogId']} updated`})
+})
+
+exports.admin_blog_delete_post = asyncHandler( async(req, res, next) => {
+  res.json({message: `blog post ${req.params['blogId']} deleted`})
+})
+
+exports.admin_comment_delete_post = asyncHandler( async(req, res, next) => {
+  res.json({message: `comment post ${req.params['commentId']} deleted`})
 })

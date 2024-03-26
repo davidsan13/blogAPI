@@ -14,6 +14,7 @@ const User = require("./models/user");
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/users');
 var blogRouter = require('./routes/blogs');
+var adminRouter = require('./routes/admin')
 
 
 require('dotenv').config()
@@ -47,6 +48,7 @@ app.use(cors())
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/blog', blogRouter);
+app.use('/admin', adminRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

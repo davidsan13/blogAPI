@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const authenticateToken  = require("../middleware/jwt")
 
 const blog_controller = require('../controllers/blogController')
 const comment_controller = require('../controllers/commentController')
@@ -15,7 +16,7 @@ router.get('/allBlogs', blog_controller.blog_get_all)
 //create
 router.get('/createblog', blog_controller.blog_create_get)
 
-router.post('/createblog', blog_controller.blog_create_post)
+router.post('/createblog', authenticateToken, blog_controller.blog_create_post)
 
 //read blog detail
 router.get('/:blogId', blog_controller.blog_detail_get)
@@ -24,7 +25,7 @@ router.get('/:blogId', blog_controller.blog_detail_get)
 router.post('/:blogId/delete', blog_controller.blog_delete)
 
 // update blog
-router.post('/:id/update', blog_controller.blog_update_post)
+router.post('/:blogid/update', blog_controller.blog_update_post)
 
 
 /*      Comment     */
