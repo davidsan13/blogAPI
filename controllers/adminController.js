@@ -63,7 +63,8 @@ exports.admin_login_post = asyncHandler(async (req, res, next) => {
   const email = req.body.email
   // const user = {name: email}
   const password = req.body.password
-
+  // const user = {name: email}
+  console.log(email)
   try {
     const user = await User.findOne({email: email});
     if(!user) {
@@ -73,18 +74,41 @@ exports.admin_login_post = asyncHandler(async (req, res, next) => {
     if(!match) {
       res.json({message: "Incorrect password"})
     }
-    const accessToken = jwt.sign({user}, process.env.secretKey, (err, token) => {
+    const maxAge = 3 * 24 * 60 * 60
+    const iat = Math.floor(Date.now() / 1000)
+    const exp = iat + 60 // seconds 
+    console.log(maxAge)
+    const accessToken = jwt.sign({user}, process.env.secretKey, {
+      // iat,
+      // expiresIn: exp
+      expiresIn: 60000,
+    });
       res
-        .cookie("access_token", token, {
+        .cookie("access_token", accessToken, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
+          secure: true,
+          maxAge: 60000,
+
+          // sameSite: "none"
+          // secure: process.env.NODE_ENV === 'production',
         })
+        // .setHeader("accessToken", 'Bearer' + accessToken)
         .status(200)
-        .json({message: "Logged in successfully"})
-    })
+        .json({message: "success", accessToke: accessToken})
+        console.log(accessToken)
   } catch(err) {
     return (err)
   }
+
+})
+
+
+
+exports.admin_logout = asyncHandler(async(req,res,next) => {
+  // return res
+  //   .clearCookie("access_token")
+  //   .status(200)
+  //   .json({message: "Logout"})
 
 })
 exports.admin_blog_get = asyncHandler( async(req, res, next) => {
@@ -92,9 +116,14 @@ exports.admin_blog_get = asyncHandler( async(req, res, next) => {
 })
 
 exports.admin_blog_create_post = asyncHandler( async(req, res, next) => {
+  console.log('create blog')
   res.json("create blog")
+
 })
 
+exports.admin_blog_create_get = asyncHandler( async(req, res, next) => {
+  console.log("Hello")
+})
 exports.admin_update_post = asyncHandler( async(req, res, next) => {
   res.json({message: `blog post ${req.params['blogId']} updated`})
 })

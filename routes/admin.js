@@ -14,8 +14,11 @@ router.post('/signup', admin_controller.admin_signup_post)
 
 router.post('/login', admin_controller.admin_login_post)
 
+router.get('/logout', authenticateToken, admin_controller.admin_logout)
+
 router.post('/create', authenticateToken, admin_controller.admin_blog_create_post )
 
+router.get('/create', authenticateToken, admin_controller.admin_blog_create_get)
 // update blog
 router.post('/:blogId/update', authenticateToken, admin_controller.admin_update_post)
 

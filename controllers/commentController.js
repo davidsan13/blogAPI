@@ -38,7 +38,7 @@ exports.comment_create_post = [
       const response = await comment.save()
       await Blog.findByIdAndUpdate({_id: response.blog_id}, {$push: {comments: response._id}})
       console.log("Comment created and saved to DB")
-      res.status(201).json(response)
+      res.status(201).json({message:'success'})
     } catch (errors) {
       console.log(errors)
     }

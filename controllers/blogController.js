@@ -83,7 +83,7 @@ exports.blog_create_post = [
 //read
 exports.blog_detail_get = asyncHandler(async (req, res, next) => {
   try{
-    const comments = await Comment.find({blog_id: req.params['blogId']})
+    const comments = await Comment.find({blog_id: req.params['blogId']}).sort({'createdTime': -1})
     const blog = await Blog.findById(req.params['blogId']).exec()
     res.status(200).json({blog, comments})
   } catch (error) {

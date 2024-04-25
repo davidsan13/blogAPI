@@ -32,18 +32,45 @@ var app = express();
 
 app.use(express.urlencoded({ extended: false }));
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// app.use(
+//   jwt({
+//     secret: process.env.secretKey,
+//     access_token: req => req.cookies.token
+//   })
+// );
+
+var corsoption={
+  origin:"http://localhost:5173", //origin from where you requesting
+  credentials: true,
+  methods: ["GET", "POST"]
+}
+
+
+// app.set("trust proxy", 1)
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Credentials', 'true');
+//   next();
+// });
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors(corsoption))
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
-app.use(cors())
-
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: "session",
+  })
+)
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
