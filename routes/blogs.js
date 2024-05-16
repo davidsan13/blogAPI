@@ -25,7 +25,7 @@ router.get('/:blogId', blog_controller.blog_detail_get)
 router.post('/:blogId/delete', blog_controller.blog_delete)
 
 // update blog
-router.post('/:blogid/update', blog_controller.blog_update_post)
+router.post('/:blogId/update', blog_controller.blog_update_post)
 
 
 /*      Comment     */

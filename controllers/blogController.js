@@ -59,24 +59,24 @@ exports.blog_create_post = [
 
 
   asyncHandler(async (req, res, next) => {
-    const errors = validationResult(req);
-    var date = new Date()
-    const blog = new Blog({
-      title: req.body.title,
-      content: req.body.content,
-      published: req.body.published,
-      publishedAt: date.toLocaleString(),
-    })
+    // const errors = validationResult(req);
+    // var date = new Date()
+    // const blog = new Blog({
+    //   title: req.body.title,
+    //   content: req.body.content,
+    //   published: req.body.published,
+    //   publishedAt: date.toLocaleString(),
+    // })
     console.log(req.body)
-    if(!errors.isEmpty()) {
-      res.render('index', {
-        errors: errors.array(),
-      });
-      return;
-    } else {
-      const response = await blog.save()
-      res.status(201).json(response)
-    }
+    // if(!errors.isEmpty()) {
+    //   res.render('index', {
+    //     errors: errors.array(),
+    //   });
+    //   return;
+    // } else {
+    //   const response = await blog.save()
+    //   res.status(201).json(response)
+    // }
   res.render('POST create')
 })]
 
@@ -105,11 +105,12 @@ exports.blog_delete = asyncHandler(async (req, res, next) => {
 //update
 exports.blog_update_post = asyncHandler(async (req, res, next) => {
   const update = {}
-  const filter = {_id: req.params['id']}
+  const filter = {_id: req.params['blogId']}
+  
   if(req.body.title) update.title = req.body.title
   if(req.body.content) update.content = req.body.content
-  if(req.body.published) update.published = req.body.published
-
+  if(req.body.published!==null) update.published = req.body.published
+  console.log(update)
   try {
     const blog = await Blog.findOneAndUpdate(filter, update, { new: true})
     res.status(200).json(blog)
