@@ -14,7 +14,9 @@ router.post('/signup', admin_controller.admin_signup_post)
 
 router.post('/login', admin_controller.admin_login_post)
 
-router.get('/logout', authenticateToken, admin_controller.admin_logout)
+router.post('/logout', authenticateToken, admin_controller.admin_logout)
+
+router.get('/allBlogs', authenticateToken, admin_controller.admin_blog_get)
 
 router.post('/create', authenticateToken, admin_controller.admin_blog_create_post )
 

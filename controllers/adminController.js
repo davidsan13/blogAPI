@@ -1,4 +1,5 @@
 const User = require("../models/user")
+const Blog = require("../models/blog")
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler")
 const jwt = require("jsonwebtoken")
@@ -64,7 +65,6 @@ exports.admin_login_post = asyncHandler(async (req, res, next) => {
   // const user = {name: email}
   const password = req.body.password
   // const user = {name: email}
-  console.log(email)
   try {
     const user = await User.findOne({email: email});
     if(!user) {
@@ -77,43 +77,48 @@ exports.admin_login_post = asyncHandler(async (req, res, next) => {
     const maxAge = 3 * 24 * 60 * 60
     const iat = Math.floor(Date.now() / 1000)
     const exp = iat + 60 // seconds 
-    console.log(maxAge)
     const accessToken = jwt.sign({user}, process.env.secretKey, {
       // iat,
       // expiresIn: exp
-      expiresIn: 60000,
+     
     });
       res
         .cookie("access_token", accessToken, {
-          httpOnly: true,
+          // httpOnly: true,
           secure: true,
-          maxAge: 60000,
 
           // sameSite: "none"
           // secure: process.env.NODE_ENV === 'production',
         })
         // .setHeader("accessToken", 'Bearer' + accessToken)
         .status(200)
-        .json({message: "success", accessToke: accessToken})
-        console.log(accessToken)
+        .json({message: "success", accessToken: accessToken})
+
   } catch(err) {
     return (err)
   }
 
 })
-
-
-
 exports.admin_logout = asyncHandler(async(req,res,next) => {
-  // return res
-  //   .clearCookie("access_token")
-  //   .status(200)
-  //   .json({message: "Logout"})
+  return res
+    .clearCookie("access_token")
+    .status(200)
+    .json({message: "success"})
 
 })
 exports.admin_blog_get = asyncHandler( async(req, res, next) => {
-  res.json("Retrieve All Blog")
-})
+  try {
+    const Blogs = await Blog.find()
+    if(Blogs.length == 0) {
+      console.log("Not Data")
+      res.status(204).send("No Data")
+    } else {
+      console.log("Retrieve All Blogs")
+      res.status(200).json(Blogs)
+    }
+  } catch (error) {
+    console.error(error)
+  }})
 
 exports.admin_blog_create_post = asyncHandler( async(req, res, next) => {
   console.log('create blog')

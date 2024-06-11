@@ -59,24 +59,24 @@ exports.blog_create_post = [
 
 
   asyncHandler(async (req, res, next) => {
-    // const errors = validationResult(req);
-    // var date = new Date()
-    // const blog = new Blog({
-    //   title: req.body.title,
-    //   content: req.body.content,
-    //   published: req.body.published,
-    //   publishedAt: date.toLocaleString(),
-    // })
-    console.log(req.body)
-    // if(!errors.isEmpty()) {
-    //   res.render('index', {
-    //     errors: errors.array(),
-    //   });
-    //   return;
-    // } else {
-    //   const response = await blog.save()
-    //   res.status(201).json(response)
-    // }
+    const errors = validationResult(req);
+    var date = new Date()
+    const blog = new Blog({
+      title: req.body.title,
+      content: req.body.content,
+      published: req.body.published,
+      publishedAt: date.toLocaleString(),
+    })
+    console.log(blog)
+    if(!errors.isEmpty()) {
+      res.render('index', {
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      const response = await blog.save()
+      res.status(201).json(response)
+    }
   res.render('POST create')
 })]
 
@@ -94,8 +94,7 @@ exports.blog_detail_get = asyncHandler(async (req, res, next) => {
 //delete
 exports.blog_delete = asyncHandler(async (req, res, next) => {
   try{
-    const blog = await Blog.findByIdAndDelete(req.params['blogId'])
-    console.log(blog)
+    //const blog = await Blog.findByIdAndDelete(req.params['blogId'])
     res.status(200).redirect('/')
   } catch(error) {
     console.log(error)

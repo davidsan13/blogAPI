@@ -11,12 +11,12 @@ router.get('/', blog_controller.blog_get_four);
 
 // Get all blogs
 
-router.get('/allBlogs', blog_controller.blog_get_all)
+router.get('/allBlogs', authenticateToken, blog_controller.blog_get_all)
 
 //create
-router.get('/createblog', blog_controller.blog_create_get)
+router.get('/createblog', authenticateToken, blog_controller.blog_create_get)
 
-router.post('/createblog', authenticateToken, blog_controller.blog_create_post)
+router.post('/createblog', authenticateToken,blog_controller.blog_create_post)
 
 //read blog detail
 router.get('/:blogId', blog_controller.blog_detail_get)
