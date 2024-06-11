@@ -11,7 +11,7 @@ router.get('/', blog_controller.blog_get_four);
 
 // Get all blogs
 
-router.get('/allBlogs', authenticateToken, blog_controller.blog_get_all)
+router.get('/allBlogs', blog_controller.blog_get_all)
 
 //create
 router.get('/createblog', authenticateToken, blog_controller.blog_create_get)
