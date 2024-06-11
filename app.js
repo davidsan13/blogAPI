@@ -23,7 +23,7 @@ require('dotenv').config()
 // mongoose.set("strictQuery", false);
 
 // Define the database URL to connect to.
-const mongoDb = process.env.MONGO_URL;
+const mongoDb = process.env.MONGODB_URI || process.env.MONGO_URL;
 mongoose.connect(mongoDb)
 const db = mongoose.connection
 db.on("error", console.error.bind(console, "mongo connection error"));
