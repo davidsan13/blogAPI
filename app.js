@@ -23,7 +23,7 @@ require('dotenv').config()
 // mongoose.set("strictQuery", false);
 
 // Define the database URL to connect to.
-const mongoDb = process.env.MONGODB_URI || process.env.MONGO_URL;
+const mongoDb = process.env.MONGO_URL;
 mongoose.connect(mongoDb)
 const db = mongoose.connection
 db.on("error", console.error.bind(console, "mongo connection error"));
@@ -46,7 +46,7 @@ app.set('view engine', 'pug');
 
 var corsoption={
   origin:"http://localhost:5173", //origin from where you requesting
-  credentials: true,
+  // credentials: true,
   methods: ["GET", "POST"]
 }
 
