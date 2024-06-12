@@ -45,8 +45,8 @@ app.set('view engine', 'pug');
 // );
 
 var corsoption={
-  origin:"http://localhost:5173", //origin from where you requesting
-  // credentials: true,
+  origin:"https://blog-production-c0ef.up.railway.app/", //origin from where you requesting
+  credentials: true,
   methods: ["GET", "POST"]
 }
 
