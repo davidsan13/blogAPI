@@ -76,13 +76,13 @@ exports.user_login_post = asyncHandler(async (req, res, next) => {
 
   try {
     const user = await User.findOne({email: email});
-    // if(!user) {
-      // res.json({message: "Incorrect username"})
-    // }
-    // const match = await bcrypt.compare(password, user.password)
-    // if(!match) {
-      // res.json({message: "Incorrect password"})
-    // }
+    if(!user) {
+      res.json({message: "Incorrect username"})
+    }
+    const match = await bcrypt.compare(password, user.password)
+    if(!match) {
+      res.json({message: "Incorrect password"})
+    }
     const accessToken = jwt.sign({user}, 'secretKey', (err, token) => {
       res.json({token})
     })
