@@ -92,16 +92,7 @@ exports.user_login_post = asyncHandler(async (req, res, next) => {
 
 })
 
-const post = [
-  {
-    username: 'sandavid08@yahoo.com',
-    title: 'Post 1'
-  },
-  {
-    username: 'richard',
-    title: 'Post 2'
-  }
-]
+
 exports.user_post_get = asyncHandler(async (req, res,) => {
   res.json({
     message: 'Post created ...',
